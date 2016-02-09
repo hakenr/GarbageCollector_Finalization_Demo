@@ -36,10 +36,10 @@ namespace GarbageCollector
 			data = Enumerable.Range(0, size).Select(i => (byte)(i % 256)).ToArray();
 		}
 
-		~MyClass()
-		{
-			Thread.Sleep(10); // 10 ms
-			data = null;
-		}
+		//~MyClass()
+		//{
+		//	Thread.Sleep(10); // 10 ms
+		//	data = null;
+		//}
 	}
 }
