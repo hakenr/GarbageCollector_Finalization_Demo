@@ -39,13 +39,24 @@ namespace GarbageCollector
 
 		public void Dispose()
 		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				// free managed resources
+			}
+			// free unmanaged resources
 			Thread.Sleep(10); // 10 ms
 			data = null;
 		}
 
 		~MyClass()
 		{
-			Dispose();
+			Dispose(false);
 		}
 	}
 }
