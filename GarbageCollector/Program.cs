@@ -20,14 +20,15 @@ namespace GarbageCollector
 			while (true)
 			{
 				i++;
-				MyClass mc = new MyClass(5000); // ~ 5 kB
-				mc = null;
-				Console.WriteLine($"# {i:n0} in {stopwatch.ElapsedMilliseconds}ms = ({i / (stopwatch.ElapsedMilliseconds / 1000.0):n2}/s)");
+				using (MyClass mc = new MyClass(5000))
+				{
+					Console.WriteLine($"# {i:n0} in {stopwatch.ElapsedMilliseconds}ms = ({i / (stopwatch.ElapsedMilliseconds / 1000.0):n2}/s)");
+				}
 			}
 		}
 	}
 
-	public class MyClass
+	public class MyClass : IDisposable
 	{
 		byte[] data;
 
@@ -36,10 +37,15 @@ namespace GarbageCollector
 			data = Enumerable.Range(0, size).Select(i => (byte)(i % 256)).ToArray();
 		}
 
-		//~MyClass()
-		//{
-		//	Thread.Sleep(10); // 10 ms
-		//	data = null;
-		//}
+		public void Dispose()
+		{
+			Thread.Sleep(10); // 10 ms
+			data = null;
+		}
+
+		~MyClass()
+		{
+			Dispose();
+		}
 	}
 }
